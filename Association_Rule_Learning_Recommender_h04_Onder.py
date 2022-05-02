@@ -4,23 +4,23 @@ from mlxtend.frequent_patterns import apriori, association_rules
 
 
 ################################################################################################
-# Görev1: Veri Ön İşleme İşlemlerini Gerçekleştiriniz
-# Germany seçimi sonraki basamakta olacaktır.
+# Task1: Perform Data Preprocessing
+# Germany selection will be in the next step.
 ################################################################################################
 
 
 #########################
-# Veri Ön İşleme
+# Data Preprocessing
 #########################
 
 
 
-# Test Excel sheet isimleri
-e = pd.ExcelFile("datasets/online_retail_II.xlsx")
+# Check Excel sheet names
+e = pd.ExcelFile("online_retail_II.xlsx")
 e.sheet_names
 
-# Verinin Excel'den Okunması
-df2 = pd.read_excel("datasets/online_retail_II.xlsx", sheet_name='Year 2010-2011')
+# Reading the dataset
+df2 = pd.read_excel("online_retail_II.xlsx", sheet_name='Year 2010-2011')
 df = df2.copy()
 
 df.head(5)
@@ -60,7 +60,7 @@ df = retail_data_prep(df)
 df.shape
 
 ################################################################################################
-# Görev 2: Germany müşterileri üzerinden birliktelik kuralları üretiniz.
+# Task 2: Generate association rules through German customers.
 ################################################################################################
 
 df['Country'].unique()
@@ -69,11 +69,11 @@ df_de = df[df["Country"] == "Germany"]
 
 df_de.shape
 ############################################
-# ARL Veri Yapısını Hazırlama (Invoice-Product Matrix)
-############################################
+# Preparing ARL Data Structure (Invoice-Product Matrix)
+##########################################
 
 
-# Verinin gelmesini istediğimiz durum: her bir ürün için satın alma oldu mu olmadı mı Binary coding.
+# Situation where we want the data to come: whether there is a purchase or not for each product - Binary coding.
 
 # Description   NINE DRAWER OFFICE TIDY   SET 2 TEA TOWELS I LOVE LONDON    SPACEBOY BABY GIFT SET
 # Invoice
@@ -108,7 +108,7 @@ df_de.groupby(['Invoice', 'Description']). \
 
 
 # Same ARL data structure created with a function
-# Soru: id neden parametre şartlı yapıda
+# Question: Why is id parameter conditional?
 def create_invoice_product_df(dataframe, id=False):
     if id:
         return dataframe.groupby(['Invoice', "StockCode"])['Quantity'].sum().unstack().fillna(0). \
@@ -124,7 +124,7 @@ de_inv_pro_df = create_invoice_product_df(df_de, id=True)
 
 
 ############################################
-# Birliktelik Kurallarının Çıkarılması
+# # Generation of Association Rules
 ############################################
 
 
@@ -136,11 +136,10 @@ rules.sort_values("support", ascending=False).head()
 
 rules.sort_values("lift", ascending=False).head(500)
 
-# Soru: Çıktıdaki POST vs nedir?
 
 
 ################################################################################################
-# Görev 3: ID'leri verilen ürünlerin isimleri nelerdir?
+# Task 3: What are the names of the products whose IDs are given?
 ################################################################################################
 
 # Get description from stockcode
@@ -154,7 +153,7 @@ check_id(df_de, 23235)
 check_id(df_de, 22747)
 
 ################################################################################################
-# Görev 4: Sepetteki kullanıcılar için ürün önerisi yapınız.
+# Task 4: Make a product recommendation for the users in the cart.
 ################################################################################################
 
 
@@ -174,7 +173,7 @@ recommendation_list[0:3]
 
 
 ################################################################################################
-# Görev 5: Önerilen ürünlerin isimleri nelerdir?
+# Task 5: What are the names of the proposed products?
 ################################################################################################
 
 for product in recommendation_list[0:3]:
