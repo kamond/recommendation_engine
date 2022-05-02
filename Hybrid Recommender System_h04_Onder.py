@@ -13,7 +13,7 @@ df_users_test.sort_values('title', ascending=False)
 """
 
 ################################################################################################
-# Görev1: Veri Ön İşleme İşlemlerini Gerçekleştiriniz
+# Task1: Perform Data Preprocessing
 ################################################################################################
 
 def create_user_movie_df():
@@ -36,7 +36,7 @@ user_movie_df.shape
 
 
 ################################################################################################
-# Görev2: Öneri yapılacak kullanıcının izlediği filmleri belirleyiniz.
+# Task2: Determine the movies watched by the user to be suggested.
 ################################################################################################
 
 
@@ -57,7 +57,7 @@ user_movie_df.loc[user_movie_df.index == random_user, user_movie_df.columns == "
 len(movies_watched)
 
 ################################################################################################
-# Görev3: Aynı filmleri izleyen diğer kullanıcıların verisine ve Id'lerine erişiniz..
+# Task 3: Access to data and Ids of other users watching the same movies.
 ################################################################################################
 
 
@@ -84,7 +84,7 @@ users_same_movies.count()
 users_same_movies.index
 
 ################################################################################################
-# Görev4: Öneri yapılacak kullanıcı ile en benzer kullanıcıları belirleyiniz
+# Task 4: Identify the users who are most similar to the user to be suggested
 ################################################################################################
 
 movies_watched_df[movies_watched_df.index.isin(users_same_movies)].shape
@@ -125,7 +125,7 @@ top_users_ratings.head(3)
 top_users_ratings = top_users_ratings[top_users_ratings["userId"] != random_user]
 
 ################################################################################################
-# Görev5: Weighted Average Recommendation Score'u hesaplayınız ve ilk 5 filmi tutunuz.
+# Task 5: Calculate the Weighted Average Recommendation Score and keep the first 5 movies.
 ################################################################################################
 
 top_users_ratings['weighted_rating'] = top_users_ratings['corr'] * top_users_ratings['rating']
@@ -159,13 +159,13 @@ movies_to_be_recommend.merge(movie[["movieId", "title"]])
 movies_to_be_recommend_merged = movies_to_be_recommend.merge(movie[["movieId", "title"]])
 
 
-#ilk 5 film:
+#top 5 movies:
 top5_weighted_avg = movies_to_be_recommend_merged.iloc[0:5]
 
 top5_weighted_avg
 
 ################################################################################################
-# Görev6: Kullanıcının izlediği filmlerden en son en yüksek puan verdiği filmin adına göre item-based öneri yapınız.
+# Task 6: Make an item-based suggestion based on the name of the movie that the user has watched with the highest score.
 ################################################################################################
 
 movie = pd.read_csv('datasets/movie_lens_dataset/movie.csv')
